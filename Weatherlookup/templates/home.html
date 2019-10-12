@@ -1,5 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Welcome to Home Page</h1>
-{% endblock %}
+    {% if zipcode %}
+        {{ zipcode }}
+    {% endif %}
+    {% if api_content %}
+        {% if api_content == "Error..." %}
+            <p>There is an error, please try again....</p> 
+        {% else %} 
+            <div class="jumbotron {{ category_color }}">
+                <h1 class="display-4">{{api_content.0.Category.Name}}</h1>
+                <p class="lead">Current {{ api_content.0.ReportingArea }}  Air Quality: {{ api_content.0.AQI }}</p>
+                {% if api_content.0.Category.Number == 1 %}
+                    <p>(0 - 50) Air quality is considered satisfactory, and air pollution poses little or no risk.</p>
+                {% elif api_content.0.Category.Number == 2 %}
+                    <p>(51 - 100) Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very
+                    small number of people who are unusually sensitive to air pollution.</p>
+                {% elif api_content.0.Category.Number == 3 %}
+                    <p> (101 - 150) Although general public is not likely to be affected at this AQI range, people with lung disease, older
+                    adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older
+                    adults and children are at greater risk from the presence of particles in the air. </p>
+                {% elif api_content.0.Category.Number == 4 %}
+                    <p>(151 - 200) Everyone may begin to experience health effects; members of sensitive groups may experience more serious
+                    health effects. </p>
+                {% elif api_content.0.Category.Number == 5 %}
+                    <p>(201 - 300) Health alert: everyone may experience more serious health effects.</p>
+                {% else %}
+                    <p>(301 - 500) Health warnings of emergency conditions. The entire population is more likely to be affected.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %} 
