@@ -1,3 +1,4 @@
+# View file to view our templates
 from django.shortcuts import render
 
 def home(request):
